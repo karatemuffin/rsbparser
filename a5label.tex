@@ -1,0 +1,50 @@
+\documentclass [8pt]{article}
+\usepackage[ngerman]{babel}
+\usepackage[a5paper,landscape,left=0mm,top=0mm]{geometry}
+\usepackage[]{textpos}
+\usepackage[utf8]{inputenc}
+\usepackage{datatool}
+%\usepackage{showframe}
+\usepackage{parskip}
+
+\DTLsetseparator{;}%
+\DTLsetdelimiter{}%
+\DTLloadrawdb{liste}{data.csv}%
+
+\setlength{\TPHorizModule}{1mm}
+\setlength{\TPVertModule}{1mm}
+
+
+\begin{document}
+\pagestyle{empty}
+%\DTLdisplaydb{liste}
+
+\DTLforeach{liste}{
+\AddrA =Form1,
+\AddrB =Form2,
+\AddrC =Form3,
+\AddrD =Form4,
+\Schuler =Form5,
+\Klasse =Form6}
+{
+%links:75mm bis 135mm
+%oben:80mm bis 90mm
+\begin{textblock}{60}(75,80)
+SchUG §19(3a), TC, \Klasse, \Schuler
+\end{textblock}
+
+%links:150mm bis 195mm
+%oben:65mm bis 125mm 
+\begin{textblock}{45}(150,65)
+\AddrA\\
+\AddrB\\
+\AddrC\\
+\AddrD
+\end{textblock}
+\newpage
+}
+
+
+
+
+\end{document}
