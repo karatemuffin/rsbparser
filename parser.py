@@ -1,3 +1,8 @@
+#TODO sort by klasse
+#TODO lehrerkürzel aus PDF extrahieren, oder als parameter angeben
+#FIXME wenn keine Anrede, dann darf es nicht nach links geshiftet werden mögl. von hinten Eintrag beginnen
+
+
 import re
 import csv
 from py_pdf_parser.loaders import load_file
