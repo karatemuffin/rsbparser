@@ -2,7 +2,7 @@ import re
 import csv
 from py_pdf_parser.loaders import load_file
 
-document = load_file("combined.pdf")
+document = load_file("Fruehwarnung_gesamt 2AHET.pdf")
 
 with open('data.csv', 'w', newline='') as csvfile:
 
@@ -11,6 +11,7 @@ with open('data.csv', 'w', newline='') as csvfile:
 
 	for pagenumber in range(1,document.number_of_pages,2):
 		page = document.get_page(pagenumber)
+		print(page.elements[0].text())
 		adresse = re.findall('.*\n?',page.elements[0].text())
 		
 		page = document.get_page(pagenumber + 1 )
