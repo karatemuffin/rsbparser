@@ -35,10 +35,13 @@ $pattern2 = '/Gegenstand\n?(.+)\ \((.*\n?.*)\)/';
 //Group2: 5-18	Michael Knoll
 //Group3: 19-35	Raiffeisenweg 32
 //Group4: 36-52	8662 St. Barbara
+//Group5        2021 
 $pattern3 = '/([A-Za-z]*)\n(.*)\n(.*)\n(.*)\n\w+,\ \d+.\ \w+\ (\d+)\n+Mitteilung/';
 
-//regex for year
-//$pattern4 = '/\w+,\ \d+.\ \w+\ (\d+)/';
+//regex for law
+//Match1: 138-172	Verständigung lt. SchUG § 19 (3) -
+//Group1: 156-170	SchUG § 19 (3)
+$pattern4 = '/Verständigung lt\.\ (.+)\ -/';
 
 $success1 = preg_match_all($pattern1,$pdftext,$matches1,PREG_PATTERN_ORDER);
 
@@ -46,9 +49,9 @@ $success2 = preg_match_all($pattern2,$pdftext,$matches2,PREG_PATTERN_ORDER);
 
 $success3 = preg_match_all($pattern3,$pdftext,$matches3,PREG_PATTERN_ORDER);
 
-//$success4 = preg_match_all($pattern4,$pdftext,$matches4,PREG_PATTERN_ORDER);
+$success4 = preg_match_all($pattern4,$pdftext,$matches4,PREG_PATTERN_ORDER);
 
-
+/*
 if ($success1) {
 	echo "Match: ".var_dump($matches1)."<br />"; 
 	}
@@ -58,16 +61,17 @@ if ($success2) {
 if ($success3) {
 	echo "Match: ".var_dump($matches3)."<br />"; 
 	}	
-
-if($success1 !== $success2 || $success1 !== $success3 /*|| $success1 !== $success4*/){
- echo "Regex size mismatch (".$success1.",".$success2.",".$success3.")";
+*/
+if($success1 !== $success2 || $success1 !== $success3 || $success1 !== $success4){
+ echo "Regex size mismatch (".$success1.",".$success2.",".$success3.",".$success4.")";
+ exit();
 }
 
 $array = array();
-$array[] = array("Form1","Form2","Form3","Form4","Form5","Form6","Form7","Form8");;
+$array[] = array("Form1","Form2","Form3","Form4","Form5","Form6","Form7","Form8","Form9","Form10");
 for ($index = 0; $index <$success1; $index++) {
   //echo "The number is: $index <br>";
-  $array[] = array($matches3[1][$index],$matches3[2][$index],$matches3[3][$index],$matches3[4][$index],$matches1[1][$index],$matches1[2][$index],$matches2[1][$index],$matches2[2][$index],$matches3[5][$index]);
+  $array[] = array($matches3[1][$index],$matches3[2][$index],$matches3[3][$index],$matches3[4][$index],$matches1[1][$index],$matches1[2][$index],$matches2[1][$index],$matches2[2][$index],$matches3[5][$index],$matches4[1][$index]);
 } 
 
 //echo var_dump($array);
@@ -81,24 +85,24 @@ function encodeFunc($value) {
     $value = str_replace('\\"','"',$value);
     //then force escape these same double quotes And Any UNESCAPED Ones.
     $value = str_replace('"','\"',$value);
+    
+    $value = preg_replace('/[\r\n]+/',' ',$value);
     //force wrap value in quotes and return
-    return '"'.$value.'"';
+    return '|'.$value.'|';
 }
 
 
 
 $fp = fopen('file.csv', 'w');
-//$separator = ";";
-//$enclosure = chr(0);
-//$escape_char = "\\";
-    
+$separator = ";";
+   
 foreach ($array as $fields) {
-    //fputcsv($fp, $fields, $separator, $enclosure, $escape_char);
-    fputs($fp, implode(",", array_map("encodeFunc", $fields))."\r\n");
+    fputs($fp, implode($separator, array_map("encodeFunc", $fields))."\r\n");
 }
 
 fclose($fp);
 
+shell_exec('pdflatex a5label.tex');
 
 ?>
 

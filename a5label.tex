@@ -8,8 +8,8 @@
 \usepackage{parskip}
 
 \DTLsetseparator{;}%
-\DTLsetdelimiter{}%
-\DTLloadrawdb{liste}{data.csv}%
+\DTLsetdelimiter{|}%
+\DTLloadrawdb{liste}{file.csv}%
 
 \setlength{\TPHorizModule}{1mm}
 \setlength{\TPVertModule}{1mm}
@@ -25,7 +25,11 @@
 \AddrC =Form3,
 \AddrD =Form4,
 \Schuler =Form5,
-\Klasse =Form6}
+\Klasse =Form6,
+\Fach =Form7,
+\Lehrer =Form8,
+\Jahr =Form9,
+\NachrichtTyp =Form10}
 {
 \begin{textblock}{55}(42,10)
 HTBLA Kapfenberg\\
@@ -38,7 +42,7 @@ ID: 621417
 %links:75mm bis 135mm
 %oben:80mm bis 90mm
 \begin{textblock}{60}(75,80)
-SchUG §19(3a), TC, \Klasse, \Schuler, 2020/21
+\NachrichtTyp, \Lehrer, \Klasse, \Schuler, \Jahr
 \end{textblock}
 
 %links:150mm bis 195mm
