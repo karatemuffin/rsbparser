@@ -1,7 +1,7 @@
 #Parser Installation
 ## Debian Pakete updaten
         sudo apt update
-        sudo apt install wget php-cli php-zip unzip poppler-utils
+        sudo apt install wget php-cli php-zip unzip poppler-utils at
 
 ## PHP Dependencies
   - [Composer](https://getcomposer.org/) 
@@ -17,3 +17,8 @@ if used only in this project
         php composer-setup.php --install-dir=.
         php composer.phar require spatie/pdf-to-text
         
+
+# Usage
+Download PDF from Sokrates
+Upload to the parser
+Print the A5 pages
