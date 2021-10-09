@@ -108,7 +108,8 @@ foreach ($array as $fields) {
 fclose($fp);
 
 //execute the latex build command NOTE: listenname is expected from a5label.tex therefore we have to define it previous to call a5label.tex
-shell_exec('pdflatex -output-directory='.$build_dir.' -jobname='.$uuid.' "\def\listenname{'.$build_dir.$uuid.'.csv}\input{a5label.tex}"');
+//also note that we have to export here the home directory for www-data, else pdflatex will not find the necessary fonts
+shell_exec('export HOME="/var/www"; pdflatex -output-directory='.$build_dir.' -jobname='.$uuid.' "\def\listenname{'.$build_dir.$uuid.'.csv}\input{a5label.tex}"');
 
 $file = $build_dir.$uuid.'.pdf';
 
@@ -127,7 +128,7 @@ if (file_exists($file)) {
     readfile($file);
     
     //create an scheduled task to delete old files
-	shell_exec('echo "rm '.$build_dir.$uuid.'*" | at now + 10 minutes');
+		shell_exec('echo "rm '.$build_dir.$uuid.'*" | at now + 10 minutes');
   
     exit();
 } else {
