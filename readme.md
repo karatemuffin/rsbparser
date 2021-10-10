@@ -3,9 +3,13 @@
         sudo apt update
         sudo apt install wget php-cgi php-cli php-zip unzip poppler-utils at texlive-fonts-recommended texlive-fonts-extra texlive-latex-recommended texlive-lang-german texlive-latex-extra texlive-latex-extra-utils 
 ## LaTeX dependencies
-		export HOME='/var/www'
-		mktexpk --destdir /usr/share/texmf-texlive/fonts/pk/ljfour/jknappen/ec/ --mfmode / --bdpi 600 --mag 1+0/600 --dpi 600 ecrm1000
+        export HOME='/var/www'
+        mktexpk --destdir /usr/share/texmf-texlive/fonts/pk/ljfour/jknappen/ec/ --mfmode / --bdpi 600 --mag 1+0/600 --dpi 600 ecrm1000
 	
+## Permissions
+	Make sure that the user running the php script has the permission to run the 'at' command
+	
+        sudo vim /etc/at.deny
 
 ## PHP dependencies
   - [Composer](https://getcomposer.org/) 

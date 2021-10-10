@@ -128,7 +128,7 @@ if (file_exists($file)) {
     readfile($file);
     
     //create an scheduled task to delete old files
-		shell_exec('echo "rm '.$build_dir.$uuid.'*" | at now + 10 minutes');
+		shell_exec('echo "rm -f '.$build_dir.$uuid.'*" | at now + 10 minutes');
   
     exit();
 } else {
