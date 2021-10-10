@@ -20,7 +20,7 @@ $pdftext = Pdf::getText($_FILES['uploadedfile']['tmp_name']);
 //Match1: Name: Knoll Michael (2AHETss)
 //Group1: Knoll Michael 
 //Group2: 2AHETss
-$pattern1 = '/Name: (.*)\((.*)\)/';
+$pattern1 = '/Name: (.*)\ \((.*)\)/';
 
 //regex for the course and the teacher e.g.
 //Match1: Gegenstand Angewandte Informatik und fachspezifische Informationstechnik (DI Thomas Messner, MSc.)
@@ -42,7 +42,7 @@ $pattern2 = '/Gegenstand\n?(.+)\ \((.*\n?.*)\)/';
 //Group3: Raiffeisenweg 32
 //Group4: 8662 St. Barbara
 //Group5  2021 
-$pattern3 = '/([A-Za-z]*)\n(.*)\n(.*)\n(.*)\n\w+,\ \d+.\ \w+\ (\d+)\n+Mitteilung/';
+$pattern3 = '/(.*)\n(.*)\n(.*)\n\w+,\ \d+.\ \w+\ (\d+)\n+Mitteilung/';
 
 //regex for law
 //Match1: Verständigung lt. SchUG § 19 (3) -
@@ -70,9 +70,9 @@ if($success1 === 0
 }
 
 $array = array();
-$array[] = array("Form1","Form2","Form3","Form4","Form5","Form6","Form7","Form8","Form9","Form10");
+$array[] = array("Form2","Form3","Form4","Form5","Form6","Form7","Form8","Form9","Form10");
 for ($index = 0; $index <$success1; $index++) {
-    $array[] = array($matches3[1][$index],$matches3[2][$index],$matches3[3][$index],$matches3[4][$index],$matches1[1][$index],$matches1[2][$index],$matches2[1][$index],$matches2[2][$index],$matches3[5][$index],$matches4[1][$index]);
+    $array[] = array($matches3[1][$index],$matches3[2][$index],$matches3[3][$index],$matches1[1][$index],$matches1[2][$index],$matches2[1][$index],$matches2[2][$index],$matches3[4][$index],$matches4[1][$index]);
 }
 
 /***
