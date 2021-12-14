@@ -1,4 +1,4 @@
-#Parser Installation
+# RSB-Parser Installation
 ## Debian packages
         sudo apt update
         sudo apt install wget php-cgi php-cli php-zip unzip poppler-utils at texlive-fonts-recommended texlive-fonts-extra texlive-latex-recommended texlive-lang-german texlive-latex-extra texlive-latex-extra-utils 
