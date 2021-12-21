@@ -1,4 +1,4 @@
-#Parser Installation
+# RSb-Parser Installation
 ## Debian packages
         sudo apt update
         sudo apt install wget php-cgi php-cli php-zip unzip poppler-utils at texlive-fonts-recommended texlive-fonts-extra texlive-latex-recommended texlive-lang-german texlive-latex-extra texlive-latex-extra-utils 
@@ -18,10 +18,12 @@
         wget -O composer-setup.php https://getcomposer.org/installer
         
 If used globally 
+      
         sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer
         sudo php composer require spatie/pdf-to-text
         
 if used only in this project
+
         php composer-setup.php --install-dir=.
         php composer.phar require spatie/pdf-to-text
         
