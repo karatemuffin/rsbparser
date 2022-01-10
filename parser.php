@@ -16,6 +16,7 @@ if ($_FILES['uploadedfile']['error'] !== UPLOAD_ERR_OK               //checks fo
 
 $pdftext = Pdf::getText($_FILES['uploadedfile']['tmp_name']);
 
+
 //regex for name and class e.g.
 //Match1: Name: Knoll Michael (2AHETss)
 //Group1: Knoll Michael 
@@ -42,7 +43,7 @@ $pattern2 = '/Gegenstand\n?(.+)\ \((.*\n?.*)\)/';
 //Group3: Raiffeisenweg 32
 //Group4: 8662 St. Barbara
 //Group5  2021 
-$pattern3 = '/(.*)\n(.*)\n(.*)\n\w+,\ \d+.\ \w+\ (\d+)\n+Mitteilung/';
+$pattern3 = '/(.*)\n(.*)\n(.*)\n.+,\ \d+\.\ .+\ (\d+)\n+Mitteilung/';
 
 //regex for law
 //Match1: Verständigung lt. SchUG § 19 (3) -
