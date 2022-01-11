@@ -16,6 +16,8 @@ if ($_FILES['uploadedfile']['error'] !== UPLOAD_ERR_OK               //checks fo
 
 $pdftext = Pdf::getText($_FILES['uploadedfile']['tmp_name']);
 
+//eliminate (ascii) control characters, except \n and \r
+$pdftext=preg_replace('/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/', '', $pdftext);
 
 //regex for name and class e.g.
 //Match1: Name: Knoll Michael (2AHETss)
@@ -136,3 +138,4 @@ if (file_exists($file)) {
   	echo 'There was an error generating the output file. Please contact your administrator to have a look at the logs ('.$uuid.'.log)';
 }
 ?>
+
