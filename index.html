@@ -41,36 +41,75 @@
 
 		</br>
 		
-		<div class="w3-container w3-card">
-			<div class="w3-container">
-				<h2>Hilfe</h2>
+		<div class="w3-card">
+				<div class="w3-bar">
+					<div class="w3-bar-item w3-border-right"><b>Hilfe</b></div>
+					<div class="w3-light-grey">
+						<button class="w3-bar-item w3-button w3-border-bottom w3-border-right class-tablink" onclick="openHelp(event, 'idHelpSokrates')">Export von Sokrates</button>
+						<button class="w3-bar-item w3-button w3-border-bottom w3-border-right class-tablink" onclick="openHelp(event, 'idHelpPrinter')">Druckereinstellung</button>
+						</div>
+				</div>
+
+			<div id="idHelpSokrates" class="w3-container w3-display-container class-help" style="display:none">
+				<ol>
+					<li>Öffne Sokrates</li>
+					<li>Selektiere das gewünschte Schuljahr</li>
+					<li>Klicke auf den Menüpunkt Beurteilung</li>
+					<li>Wähle was zu Drucken gewünscht (z.B. Mahnungen)</li>
+					<li>Fülle das Suchraster</li>
+					<li>Auswahl der gewünschten Schüler</li>
+					<li>Bestätige mit "Drucken"</li>
+					<li>Das nun gespeicherte PDF auf dieser Seite hochladen.</li>
+				</ol>  
+
+				<img src="images/screenshot_www.sokrates-bund.at_klasse.png" alt="Screenshot Sokrates" width="100%">
+			
 			</div>
 
-			<img src="images/screenshot_www.sokrates-bund.at_klasse.png" alt="Screenshot Sokrates" width="100%">
-			<ol>
-				<li>Öffne Sokrates</li>
-				<li>Selektiere das gewünschte Schuljahr</li>
-				<li>Klicke auf den Menüpunkt Beurteilung</li>
-				<li>Wähle was zu Drucken gewünscht (z.B. Mahnungen)</li>
-				<li>Fülle das Suchraster</li>
-				<li>Auswahl der gewünschten Schüler</li>
-				<li>Bestätige mit "Drucken"</li>
-				<li>Das nun gespeicherte PDF auf dieser Seite hochladen.</li>
-				<li>Das Ergebnis ausdrucken.</li>
-					<ol>
-						<li>Die Seitenlade des Druckers öffnen</li>
-						<li>Die RSb Formulare einlegen</li>
-						<li>Das Papierformat auf A5 auswähen</li>
-					</ol>
-			</ol>  
-			<div class="w3-center">
-			<img src="images/1.jpg" alt="Drucker Seitenlade" max-width="100%">
-			<img src="images/2.jpg" alt="RSb einlegen" max-width="100%">
-			<img src="images/3.jpg" alt="Papiereinstellungen" max-width="100%">
+			<div id="idHelpPrinter" class="w3-container w3-display-container class-help" style="display:none">
+				<ol>
+					<li>Bereite Drucker vor</li>
+						<ol>
+							<li>Die Seitenlade des Druckers öffnen</li>
+							<li>Die RSb Formulare einlegen</li>
+							<li>Das Papierformat auf A5 auswähen</li>
+						</ol>
+					<li>Druckeinstellungen</li>
+						<ol>
+							<li>Setze die Druckgröße auf "Tatsächliche Größe"</li>
+							<li>Deaktiviere das beidseitige Bedrucken</li>
+							<li>Unter Eigenschaften -> Grundeinstellungen: stelle die Papiergröße auf A5</li>
+							<li>Unter Eigenschaften -> Papierzufuhr: wähle das Mehrzweckfach</li>
+						</ol>
+				</ol>  
+
+				<div class="w3-center">
+					<img src="images/1.jpg" alt="Drucker Seitenlade" max-width="100%">
+					<img src="images/2.jpg" alt="RSb einlegen" max-width="100%">
+					<img src="images/3.jpg" alt="Papiereinstellungen" max-width="100%">
+					<img src="images/druckereinstellungen.png" alt="Druckereinstellungen" class="w3-image">
+				</div>
+			
 			</div>
+			
 		</div>
 		
 		</br>
+		<script>
+			function openHelp(evt, helpName) {
+			  var i, x, tablinks;
+			  x = document.getElementsByClassName("class-help");
+			  for (i = 0; i < x.length; i++) {
+			    x[i].style.display = "none";
+			  }
+			  tablinks = document.getElementsByClassName("class-tablink");
+			  for (i = 0; i < x.length; i++) {
+			    tablinks[i].className = tablinks[i].className.replace(" w3-blue-grey", "");
+			  }
+			  document.getElementById(helpName).style.display = "block";
+			  evt.currentTarget.className += " w3-blue-grey";
+			}
+		</script>
 	</body>
 </html>
 
