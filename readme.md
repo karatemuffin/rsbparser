@@ -7,11 +7,11 @@
         mktexpk --destdir /usr/share/texmf-texlive/fonts/pk/ljfour/jknappen/ec/ --mfmode / --bdpi 600 --mag 1+0/600 --dpi 600 ecrm1000
 	
 ## Permissions
-	Make sure that the user running the php script has the permission to run the 'at' command
+Make sure that the user running the php script has the permission to run the 'at' command
 	
         sudo vim /etc/at.deny
 	
-	Also make sure that the user running the php script has access to an shell 
+Also make sure that the user running the php script has access to an shell 
 	
 	sudo vim /etc/passwd
 	
