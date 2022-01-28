@@ -10,6 +10,11 @@
 	Make sure that the user running the php script has the permission to run the 'at' command
 	
         sudo vim /etc/at.deny
+	
+	Also make sure that the user running the php script has access to an shell 
+	
+	sudo vim /etc/passwd
+	
 
 ## PHP dependencies
   - [Composer](https://getcomposer.org/) 
@@ -29,6 +34,4 @@ if used only in this project
         
 
 # Usage
-Download PDF from Sokrates
-Upload to the parser
-Print the A5 pages
+Open the page and follow the help instructions
