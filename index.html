@@ -7,97 +7,86 @@
 	<link rel="stylesheet" href="css/w3.css">
 	<body>
 		<div class="w3-container w3-auto">
-		<br>
-		<div class="w3-container w3-card w3-pale-yellow">
-			<div class="w3-container">
-				<h2>RSb Umschlag Generator</h2>
-			</div>
-
-			<form class=" w3-container" action="parser.php" method="post" enctype="multipart/form-data">
-
-				<!-- Begin Upload -->
-				<div class="w3-section w3-center w3-large">
-					<label> Wählen sie das aus Sokrates exportierte PDF</label>
-					<input  class="w3-input w3-center" type="file" name="uploadedfile" id="uploadedfile">
+			<br>
+			<div class="w3-container w3-card">
+				<div class="w3-container">
+					<h2>RSb Klebeettiketten Generator</h2>
 				</div>
-				<!-- End Upload -->
-				
-				<!-- Begin Submit -->
-				<div class="w3-section w3-center w3-large">
-					<p>
-						<input type="submit" class="w3-bar-item w3-button w3-green w3-round-large">
-					</p>
+				<form class="w3-container" action="parser.php" method="post" enctype="multipart/form-data">
+					<!-- Begin Upload -->
+					<div class="w3-section">
+						<p> Wählen sie das aus Sokrates exportierte Mahnungs PDF</p>
+						<input  class="w3-input w3-border" type="file" name="uploadedfile" id="uploadedfile">
+					</div>
+					<!-- End Upload -->
+					<!-- Begin Submit -->
+					<div class="w3-section w3-center w3-large">
+						<p>
+							<input type="submit" class="w3-bar-item w3-button w3-green w3-round-large">
+						</p>
+					</div>
+					<!-- End Submit --> 
+				</form>
+			</div>	
+			<br>
+			<div class="w3-card">
+					<div class="w3-bar">
+						<div class="w3-bar-item w3-border-right"><b>Hilfe</b></div>
+						<div class="w3-light-grey">
+							<button class="w3-bar-item w3-button w3-border-bottom w3-border-right class-tablink" onclick="openHelp(event, 'idHelpSokrates')">Export von Sokrates</button>
+							<button class="w3-bar-item w3-button w3-border-bottom w3-border-right class-tablink" onclick="openHelp(event, 'idHelpPrinter')">Druckereinstellung</button>
+							</div>
+					</div>
+				<div class="w3-panel w3-pale-yellow w3-leftbar w3-border-yellow">
+					Serverseitig werden keine Informationen gespeichert, daher bei Fehlermeldungen diese bitte kopieren.
 				</div>
-				<!-- End Submit --> 
-				
-			</form>
-			<div class="w3-panel w3-pale-red w3-leftbar w3-border-red">
-				Serverseitig werden keine Informationen gespeichert, daher bei Fehlermeldungen diese bitte kopieren.
-			</div>
-		</div>	
-		<br>
-		<div class="w3-card">
-				<div class="w3-bar">
-					<div class="w3-bar-item w3-border-right"><b>Hilfe</b></div>
-					<div class="w3-light-grey">
-						<button class="w3-bar-item w3-button w3-border-bottom w3-border-right class-tablink" onclick="openHelp(event, 'idHelpSokrates')">Export von Sokrates</button>
-						<button class="w3-bar-item w3-button w3-border-bottom w3-border-right class-tablink" onclick="openHelp(event, 'idHelpPrinter')">Druckereinstellung</button>
-						</div>
+				<div id="idHelpSokrates" class="w3-container w3-display-container class-help" style="display:none">
+					<ol>
+						<li>Öffne Sokrates</li>
+						<li>Selektiere das gewünschte Schuljahr</li>
+						<li>Klicke auf den Menüpunkt Beurteilung</li>
+						<li>Wähle was zu Drucken gewünscht (z.B. Mahnungen)</li>
+						<li>Fülle das Suchraster</li>
+						<li>Auswahl der gewünschten Schüler</li>
+						<li>Bestätige mit "Drucken"</li>
+						<li>Das nun gespeicherte PDF auf dieser Seite hochladen.</li>
+					</ol>  
+					<img src="images/sokbund.png" alt="Screenshot Sokrates" class="w3-image">
 				</div>
-
-			<div id="idHelpSokrates" class="w3-container w3-display-container class-help" style="display:none">
-				<ol>
-					<li>Öffne Sokrates</li>
-					<li>Selektiere das gewünschte Schuljahr</li>
-					<li>Klicke auf den Menüpunkt Beurteilung</li>
-					<li>Wähle was zu Drucken gewünscht (z.B. Mahnungen)</li>
-					<li>Fülle das Suchraster</li>
-					<li>Auswahl der gewünschten Schüler</li>
-					<li>Bestätige mit "Drucken"</li>
-					<li>Das nun gespeicherte PDF auf dieser Seite hochladen.</li>
-				</ol>  
-
-				<img src="images/sokbund.png" alt="Screenshot Sokrates" class="w3-image">
-			
-			</div>
-
-			<div id="idHelpPrinter" class="w3-container w3-display-container class-help" style="display:none">
-				<ol>
-					<li>Bereite Drucker vor
-						<ol>
-							<li>Die Seitenlade des Druckers öffnen</li>
-							<li>Die RSb Formulare einlegen</li>
-							<li>Das Papierformat auf A5 auswähen</li>
-						</ol>
-					</li>
-					<li>Druckeinstellungen
-						<ol>
-							<li>Setze die Druckgröße auf "Tatsächliche Größe"</li>
-							<li>Deaktiviere das beidseitige Bedrucken</li>
-							<li>Unter Eigenschaften -> Grundeinstellungen: stelle die Papiergröße auf A5</li>
-							<li>Unter Eigenschaften -> Papierzufuhr: wähle das Mehrzweckfach</li>
-						</ol>
-					</li>
-				</ol>  
-
-				<div class="w3-center">
-					<img src="images/printer_1.jpg" alt="Drucker Seitenlade" class="w3-image">
-					<img src="images/printer_2.jpg" alt="RSb einlegen" class="w3-image">
-					<img src="images/printer_3.jpg" alt="Papiereinstellungen" class="w3-image">
-					<img src="images/printer_4.png" alt="Druckereinstellungen" class="w3-image">
+				<div id="idHelpPrinter" class="w3-container w3-display-container class-help" style="display:none">
+					<ol>
+						<li>Bereite Drucker vor
+							<ol>
+								<li>Die Seitenlade des Druckers öffnen</li>
+								<li>Die RSb Formulare einlegen</li>
+								<li>Das Papierformat auf A5 auswähen</li>
+							</ol>
+						</li>
+						<li>Druckeinstellungen
+							<ol>
+								<li>Setze die Druckgröße auf "Tatsächliche Größe"</li>
+								<li>Deaktiviere das beidseitige Bedrucken</li>
+								<li>Unter Eigenschaften -> Grundeinstellungen: stelle die Papiergröße auf A5</li>
+								<li>Unter Eigenschaften -> Papierzufuhr: wähle das Mehrzweckfach</li>
+							</ol>
+						</li>
+					</ol>  
+					<div class="w3-center">
+						<img src="images/printer_1.jpg" alt="Drucker Seitenlade" class="w3-image">
+						<img src="images/printer_2.jpg" alt="RSb einlegen" class="w3-image">
+						<img src="images/printer_3.jpg" alt="Papiereinstellungen" class="w3-image">
+						<img src="images/printer_4.png" alt="Druckereinstellungen" class="w3-image">
+					</div>
 				</div>
-			
 			</div>
-			
 		</div>
-	</div>
 		<br>
 		<div class="w3-container w3-border w3-light-grey w3-bottom w3-center">
 			<div class="w3-center">
-			<a class="w3-bar-item" href="https://github.com/karatemuffin/rsbparser" title="GitHub Repository" target="_blank"><img src="images/button-github.png" width="80" height="15" alt="GitHub Repository" /></a>
+			<a class="w3-bar-item" href="https://github.com/karatemuffin/rsbparser" title="GitHub Repository" target="_blank"><img src="images/button-github.png" height="15" alt="GitHub Repository" /></a>
 			<a class="w3-bar-item" href="https://php.net" title="Powered by PHP" target="_blank"><img src="images/button-php.gif" width="80" height="15" alt="Powered by PHP" /></a>
 			<a class="w3-bar-item" href="//validator.w3.org/check/referer" title="Valid HTML5" target="_blank"><img src="images/button-html5.png" width="80" height="15" alt="Valid HTML5" /></a>
-			<!-- not yet<a href="//jigsaw.w3.org/css-validator/check/referer?profile=css3" title="Valid CSS" target="_blank">
+			<!-- w3css is broken yet<a href="//jigsaw.w3.org/css-validator/check/referer?profile=css3" title="Valid CSS" target="_blank">
 				<img class="w3-bar-item" src="images/button-css.png" width="80" height="15" alt="Valid CSS" />
 			</a>-->
 			</div>
