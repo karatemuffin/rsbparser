@@ -1,8 +1,18 @@
 <?php
-require __DIR__ . '/vendor/autoload.php';
-require_once('tfpdf.php');
+/**
+ * RSb Parser mainscript
+ *
+ * @license    GPLv3 (https://www.gnu.org/licenses/gpl-3.0.en.html)
+ * @author     Christian Trenkwalder <christian@karatemuffin.it>
+ *
+ */
+ 
+require_once('config.php');
+require_once(__DIR__ . '/vendor/autoload.php');
 
+use Mpdf\Mpdf;
 use Spatie\PdfToText\Pdf;
+
 
 //checks for errors and if the file is really uploaded
 if ($_FILES['uploadedfile']['error'] !== UPLOAD_ERR_OK
@@ -69,42 +79,48 @@ if ($success1 === 0
 	exit();
 }
 
-$id=utf8_decode("ID: 621417");
-//NOTE fpdf uses 
-$sender="HTBLA Kapfenberg\nViktor-Kaplan-Straße 1\nAT-8605 Kapfenberg";
+$mpdf = new Mpdf([
+	'format' => 'A5-L',
+	'margin_left' => 0,
+	'margin_right' => 0,
+	'margin_top' => 0,
+	'margin_bottom' => 0,
+	'margin_header' => 0,
+	'margin_footer' => 0,
+]);
 
-$pdf = new tFPDF( 'L', 'mm', 'A5' );;
-$pdf->SetTopMargin(0);
-$pdf->SetLeftMargin(0);
-$pdf->SetCreator('https://github.com/karatemuffin/rsbparser');
-$pdf->AddFont('DejaVu','','DejaVuSerifCondensed.ttf',true);
-$pdf->SetFont('DejaVu','',11);
+function writeFieldDiv($x,$y,$w,$txt){
+	global $mpdf, $conf;
+	$mpdf->WriteHTML('<div style="border-width: '.$conf['border-width'].'; border-style: '.$conf['border-style'].'; font-size: '.$conf['font-size'].'; position: absolute; top: '.$y.'mm; left: '.$x.'mm; width: '.$w.'mm;">'.$txt.'</div>');
+}
+
+
+//$pdf->SetCreator('https://github.com/karatemuffin/rsbparser');
+//$pdf->AddFont('DejaVu','','DejaVuSerifCondensed.ttf',true);
+//$pdf->SetFont('DejaVu','',11);
 
 for ($index = 0; $index <$success1; $index++) {
 	$message=$matches4[1][$index].", ".$matches2[2][$index].", ".$matches1[2][$index].", ".$matches1[1][$index].", ".$matches3[4][$index];
-	$receiver=$matches3[1][$index]."\n".$matches3[2][$index]."\n".$matches3[3][$index];
+	$receiver=$matches3[1][$index]."<br>".$matches3[2][$index]."<br>".$matches3[3][$index];
 
-	$pdf->AddPage();
+	$mpdf->AddPage();
 	//Produktionsnorm Klebeetiketten Juni 2016 https://www.post.at/g/c/behoerdenbrief-rsa-rsb-geschaeftlich
 	//Empfängerfeld (56,5 x 16 mm)
-	$pdf->SetXY(42,7);
-	$pdf->MultiCell(56.5,4,$receiver);
+	writeFieldDiv(42,10,56.5,$receiver);
 
 	//Absenderfeld (82 x 13 mm)
-	$pdf->SetXY(52,25);
-	$pdf->MultiCell(82,4,$sender.", ".$id);
+	writeFieldDiv(52,25,82,$conf['sender'].", ".$conf['id']);
 
 	//Angabe des ursprünglichen Empfängers auf der Rückantwortkarte (60 x 10 mm)
-	$pdf->SetXY(75,77);
-	$pdf->MultiCell(60,4,$message);
+	//left: 75-135mm top: 80-90mm
+	writeFieldDiv(75,80,60,$message);
 
 	//Rücksendungsanschrift auf der Rückantwortkarte (60 x 20 mm)
-	$pdf->SetXY(75,97);
-	$pdf->MultiCell(60,4,$sender."\n".$id);
+	writeFieldDiv(75,100,60,$conf['sender']."\n".$conf['id']);
 	
 	//Empfängerfeld (56,5 x 60 mm)
-	$pdf->SetXY(150,70);
-	$pdf->MultiCell(56.5,4,$receiver);
+	//left: 150-195mm top: 65-125mm
+	writeFieldDiv(150,65,56.5,$conf['sender']."\n".$conf['id']);
 }
 
-$pdf->Output();
+$mpdf->Output();
