@@ -1,18 +1,15 @@
 <?php
-/*
-FIXME address data where no "anrede" is given will result in malformed pdf error
-*/
 require __DIR__ . '/vendor/autoload.php';
+require_once('tfpdf.php');
 
 use Spatie\PdfToText\Pdf;
 
-//$pdfname = 'Fruehwarnung_gesamt 2AHET.pdf';
-if ($_FILES['uploadedfile']['error'] !== UPLOAD_ERR_OK               //checks for errors and if the file is really uploaded
-    || !is_uploaded_file($_FILES['uploadedfile']['tmp_name'])) {
-    echo 'File upload failed.';
-    exit();
+//checks for errors and if the file is really uploaded
+if ($_FILES['uploadedfile']['error'] !== UPLOAD_ERR_OK
+	|| !is_uploaded_file($_FILES['uploadedfile']['tmp_name'])) {
+	echo 'File upload failed.';
+	exit();
 }
-
 
 $pdftext = Pdf::getText($_FILES['uploadedfile']['tmp_name']);
 
@@ -20,30 +17,30 @@ $pdftext = Pdf::getText($_FILES['uploadedfile']['tmp_name']);
 $pdftext=preg_replace('/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/', '', $pdftext);
 
 //regex for name and class e.g.
-//Match1: Name: Knoll Michael (2AHETss)
-//Group1: Knoll Michael 
+//Match1: Name: Max Mustermann (2AHETss)
+//Group1: Max Mustermann 
 //Group2: 2AHETss
 $pattern1 = '/Name: (.*)\ \((.*)\)/';
 
 //regex for the course and the teacher e.g.
-//Match1: Gegenstand Angewandte Informatik und fachspezifische Informationstechnik (DI Thomas Messner, MSc.)
+//Match1: Gegenstand Angewandte Informatik und fachspezifische Informationstechnik (DI Marianne Musterfrau, MSc.)
 //Group1: Angewandte Informatik und fachspezifische Informationstechnik
-//Group2: DI Thomas Messner, MSc.
+//Group2: DI Marianne Musterfrau, MSc.
 
 $pattern2 = '/Gegenstand\n?(.+)\ \((.*\n?.*)\)/';
 
 //regex for te address e.g.
 //Match1: Herr
-//        Michael Knoll
-//        Raiffeisenweg 32
-//        8662 St. Barbara
-//        Kapfenberg, 1. Juni 2021
+//        Max Mustermann
+//        Musterweg 32
+//        1234 St. Musterstadt
+//        Musterdorf, 1. Juni 2021
 //
 //        Mitteilung über den Leistungsstand
 //Group1: Herr
-//Group2: Michael Knoll
-//Group3: Raiffeisenweg 32
-//Group4: 8662 St. Barbara
+//Group2: Max Mustermann
+//Group3: Musterweg 32
+//Group4: 8662 St. Musterstadt
 //Group5  2021 
 $pattern3 = '/(.*)\n(.*)\n(.*)\n.+,\ \d+\.\ .+\ (\d+)\n+Mitteilung/';
 
@@ -60,82 +57,54 @@ $success3 = preg_match_all($pattern3,$pdftext,$matches3,PREG_PATTERN_ORDER);
 
 $success4 = preg_match_all($pattern4,$pdftext,$matches4,PREG_PATTERN_ORDER);
 
-if($success1 === 0 
-    || $success1 !== $success2 
-    || $success1 !== $success3 
-    || $success1 !== $success4){
-    echo 'The pdf you submitted was malformed. ('.$success1.','.$success2.','.$success3.','.$success4.')</br>';
-    echo '<pre>'; print_r($matches1); echo '</pre></br>';
-    echo '<pre>'; print_r($matches2); echo '</pre></br>';
-    echo '<pre>'; print_r($matches3); echo '</pre></br>';
-    echo '<pre>'; print_r($matches4); echo '</pre></br>';
-    exit();
+if ($success1 === 0 
+	|| $success1 !== $success2 
+	|| $success1 !== $success3 
+	|| $success1 !== $success4) {
+	echo 'The pdf you submitted was malformed. ('.$success1.','.$success2.','.$success3.','.$success4.')</br>';
+	echo '<pre>'; print_r($matches1); echo '</pre></br>';
+	echo '<pre>'; print_r($matches2); echo '</pre></br>';
+	echo '<pre>'; print_r($matches3); echo '</pre></br>';
+	echo '<pre>'; print_r($matches4); echo '</pre></br>';
+	exit();
 }
 
-$array = array();
-$array[] = array("Form2","Form3","Form4","Form5","Form6","Form7","Form8","Form9","Form10");
+$id=utf8_decode("ID: 621417");
+//NOTE fpdf uses 
+$sender="HTBLA Kapfenberg\nViktor-Kaplan-Straße 1\nAT-8605 Kapfenberg";
+
+$pdf = new tFPDF( 'L', 'mm', 'A5' );;
+$pdf->SetTopMargin(0);
+$pdf->SetLeftMargin(0);
+$pdf->SetCreator('https://github.com/karatemuffin/rsbparser');
+$pdf->AddFont('DejaVu','','DejaVuSerifCondensed.ttf',true);
+$pdf->SetFont('DejaVu','',11);
+
 for ($index = 0; $index <$success1; $index++) {
-    $array[] = array($matches3[1][$index],$matches3[2][$index],$matches3[3][$index],$matches1[1][$index],$matches1[2][$index],$matches2[1][$index],$matches2[2][$index],$matches3[4][$index],$matches4[1][$index]);
+	$message=$matches4[1][$index].", ".$matches2[2][$index].", ".$matches1[2][$index].", ".$matches1[1][$index].", ".$matches3[4][$index];
+	$receiver=$matches3[1][$index]."\n".$matches3[2][$index]."\n".$matches3[3][$index];
+
+	$pdf->AddPage();
+	//Produktionsnorm Klebeetiketten Juni 2016 https://www.post.at/g/c/behoerdenbrief-rsa-rsb-geschaeftlich
+	//Empfängerfeld (56,5 x 16 mm)
+	$pdf->SetXY(42,7);
+	$pdf->MultiCell(56.5,4,$receiver);
+
+	//Absenderfeld (82 x 13 mm)
+	$pdf->SetXY(52,25);
+	$pdf->MultiCell(82,4,$sender.", ".$id);
+
+	//Angabe des ursprünglichen Empfängers auf der Rückantwortkarte (60 x 10 mm)
+	$pdf->SetXY(75,77);
+	$pdf->MultiCell(60,4,$message);
+
+	//Rücksendungsanschrift auf der Rückantwortkarte (60 x 20 mm)
+	$pdf->SetXY(75,97);
+	$pdf->MultiCell(60,4,$sender."\n".$id);
+	
+	//Empfängerfeld (56,5 x 60 mm)
+	$pdf->SetXY(150,70);
+	$pdf->MultiCell(56.5,4,$receiver);
 }
 
-/***
- * Handles how values are represented e.g. enclosing
- * @param $value array
- * @return string array values enclosed in quotes every time.
- */
-function encodeFunc($value) {
-    ///remove any ESCAPED double quotes within string.
-    $value = str_replace('\\"','"',$value);
-    //then force escape these same double quotes And Any UNESCAPED Ones.
-    $value = str_replace('"','\"',$value);
-    //remove newlines inside a value
-    $value = preg_replace('/[\r\n]+/',' ',$value);
-    //force wrap value in quotes and return
-    return '|'.$value.'|';
-}
-
-//create uuid so we have no collisions
-$uuid = vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex(random_bytes(16)), 4)); 
-
-$build_dir = 'build/';
-
-$fp = fopen($build_dir.$uuid.'.csv', 'w');
-
-//write the array down to the csv file, so we can read it in latex
-$separator = ";";
-
-foreach ($array as $fields) {
-    fputs($fp, implode($separator, array_map("encodeFunc", $fields))."\r\n");
-}
-
-fclose($fp);
-
-//execute the latex build command NOTE: listenname is expected from a5label.tex therefore we have to define it previous to call a5label.tex
-//also note that we have to export here the home directory for www-data, else pdflatex will not find the necessary fonts
-shell_exec('export HOME="/var/www"; pdflatex -output-directory='.$build_dir.' -jobname='.$uuid.' "\def\listenname{'.$build_dir.$uuid.'.csv}\input{a5label.tex}"');
-
-$file = $build_dir.$uuid.'.pdf';
-
-//send the file as whole directly to the client
-if (file_exists($file)) {
-    header('Content-Description: File Transfer');
-    header('Content-Type: application/octet-stream');
-    header('Content-Disposition: attachment; filename='.basename($file));
-    header('Content-Transfer-Encoding: binary');
-    header('Expires: 0');
-    header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
-    header('Pragma: public');
-    header('Content-Length: ' . filesize($file));
-    ob_clean();
-    flush();
-    readfile($file);
-    
-    //create an scheduled task to delete old files
-		shell_exec('echo "rm -f '.$build_dir.$uuid.'*" | at now + 10 minutes');
-  
-    exit();
-} else {
-  	echo 'There was an error generating the output file. Please contact your administrator to have a look at the logs ('.$uuid.'.log)';
-}
-?>
-
+$pdf->Output();
