@@ -1,9 +1,4 @@
-build/
-*.csv
-font/
-testdaten/
 vendor/
-font/
 *.zip
 *.tgz
 *~
@@ -16,8 +11,7 @@ composer-setup.php
 composer.json
 composer.lock
 composer.phar
-fpdf.css
-fpdf.php
 info.htm
-tfpdf.php
-wget-log
+*log
+css/w3.css
+
