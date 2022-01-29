@@ -12,4 +12,3 @@ $conf['sender']="HTBLA Kapfenberg<br>Viktor-Kaplan-Straße 1<br>AT-8605 Kapfenbe
 $conf['border-style']="none";
 $conf['border-width']="1px";
 $conf['font-size']="11px";
-

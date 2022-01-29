@@ -15,4 +15,4 @@
         php ./composer.phar require mpdf/mpdf
 
 # Usage
-Configure the parser in the ''config.php'' file, and follow the instructions after loading the ''index.html''.
+Configure the parser in the `config.php` file, and follow the instructions after loading the `index.html`.
