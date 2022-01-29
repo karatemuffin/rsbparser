@@ -89,15 +89,12 @@ $mpdf = new Mpdf([
 	'margin_footer' => 0,
 ]);
 
+$mpdf->SetCreator($conf['creator']);
+
 function writeFieldDiv($x,$y,$w,$txt){
 	global $mpdf, $conf;
 	$mpdf->WriteHTML('<div style="border-width: '.$conf['border-width'].'; border-style: '.$conf['border-style'].'; font-size: '.$conf['font-size'].'; position: absolute; top: '.$y.'mm; left: '.$x.'mm; width: '.$w.'mm;">'.$txt.'</div>');
 }
-
-
-//$pdf->SetCreator('https://github.com/karatemuffin/rsbparser');
-//$pdf->AddFont('DejaVu','','DejaVuSerifCondensed.ttf',true);
-//$pdf->SetFont('DejaVu','',11);
 
 for ($index = 0; $index <$success1; $index++) {
 	$message=$matches4[1][$index].", ".$matches2[2][$index].", ".$matches1[2][$index].", ".$matches1[1][$index].", ".$matches3[4][$index];

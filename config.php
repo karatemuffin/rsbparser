@@ -6,7 +6,8 @@
  *
  * This is a piece of PHP/HTML code so PHP/HTML syntax applies!
  */
- 
+
+$conf['creator']="https://github.com/karatemuffin/rsbparser";
 $conf['id']="ID: 621417";
 $conf['sender']="HTBLA Kapfenberg<br>Viktor-Kaplan-Straße 1<br>AT-8605 Kapfenberg";
 $conf['border-style']="none";
