@@ -17,11 +17,16 @@ use Spatie\PdfToText\Pdf;
 //checks for errors and if the file is really uploaded
 if ($_FILES['uploadedfile']['error'] !== UPLOAD_ERR_OK
 	|| !is_uploaded_file($_FILES['uploadedfile']['tmp_name'])) {
-	echo 'File upload failed.';
+	echo 'File upload failed. <a href="javascript:history.back()">Go Back</a>';
 	exit();
 }
 
-$pdftext = Pdf::getText($_FILES['uploadedfile']['tmp_name']);
+try {
+	$pdftext = Pdf::getText($_FILES['uploadedfile']['tmp_name']);
+} catch (Exception $e) {
+	echo 'Unable to validate PDF. <a href="javascript:history.back()">Go Back</a>';
+	exit();
+}
 
 //eliminate (ascii) control characters, except \n and \r
 $pdftext=preg_replace('/[\x00-\x09\x0B\x0C\x0E-\x1F\x7F]/', '', $pdftext);
