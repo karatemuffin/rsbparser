@@ -95,6 +95,7 @@ $mpdf = new Mpdf([
 ]);
 
 $mpdf->SetCreator($conf['creator']);
+$mpdf->SetCreator($conf['title']);
 
 function writeFieldDiv($x,$y,$w,$txt){
 	global $mpdf, $conf;
@@ -125,4 +126,4 @@ for ($index = 0; $index <$success1; $index++) {
 	writeFieldDiv(150,65,56.5,$conf['sender']."\n".$conf['id']);
 }
 
-$mpdf->Output();
+$mpdf->Output('RSb_'.$_FILES['uploadedfile']['name'], \Mpdf\Output\Destination::DOWNLOAD);

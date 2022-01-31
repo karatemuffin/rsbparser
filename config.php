@@ -8,6 +8,7 @@
  */
 
 $conf['creator']="https://github.com/karatemuffin/rsbparser";
+$conf['title']="RSb Klebeettikett";
 $conf['id']="ID: 621417";
 $conf['sender']="HTBLA Kapfenberg<br>Viktor-Kaplan-Straße 1<br>AT-8605 Kapfenberg";
 $conf['border-style']="none";
