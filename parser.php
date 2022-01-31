@@ -109,21 +109,21 @@ for ($index = 0; $index <$success1; $index++) {
 	$mpdf->AddPage();
 	//Produktionsnorm Klebeetiketten Juni 2016 https://www.post.at/g/c/behoerdenbrief-rsa-rsb-geschaeftlich
 	//Empfängerfeld (56,5 x 16 mm)
-	writeFieldDiv(42,10,56.5,$receiver);
+	writeFieldDiv(35,10,56.5,$receiver);
 
 	//Absenderfeld (82 x 13 mm)
-	writeFieldDiv(52,25,82,$conf['sender'].", ".$conf['id']);
+	writeFieldDiv(57,30,82,$conf['sender'].", ".$conf['id']);
 
 	//Angabe des ursprünglichen Empfängers auf der Rückantwortkarte (60 x 10 mm)
 	//left: 75-135mm top: 80-90mm
 	writeFieldDiv(75,80,60,$message);
 
 	//Rücksendungsanschrift auf der Rückantwortkarte (60 x 20 mm)
-	writeFieldDiv(75,100,60,$conf['sender']."\n".$conf['id']);
+	writeFieldDiv(75,100,60,$conf['sender']."<br>".$conf['id']);
 	
 	//Empfängerfeld (56,5 x 60 mm)
 	//left: 150-195mm top: 65-125mm
-	writeFieldDiv(150,65,56.5,$conf['sender']."\n".$conf['id']);
+	writeFieldDiv(148,66,56.5,$receiver);
 }
 
 $mpdf->Output('RSb_'.$_FILES['uploadedfile']['name'], \Mpdf\Output\Destination::DOWNLOAD);
