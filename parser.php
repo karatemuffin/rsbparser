@@ -85,7 +85,7 @@ if ($success1 === 0
 }
 
 $mpdf = new Mpdf([
-	'format' => 'A5-L',
+	'format' => 'C5-L',
 	'margin_left' => 0,
 	'margin_right' => 0,
 	'margin_top' => 0,
@@ -102,28 +102,38 @@ function writeFieldDiv($x,$y,$w,$txt){
 	$mpdf->WriteHTML('<div style="border-width: '.$conf['border-width'].'; border-style: '.$conf['border-style'].'; font-size: '.$conf['font-size'].'; position: absolute; top: '.$y.'mm; left: '.$x.'mm; width: '.$w.'mm;">'.$txt.'</div>');
 }
 
+$oldaddr = "";
 for ($index = 0; $index <$success1; $index++) {
+	//Doppelten Versand an Eltern die zusammenwohnen eliminieren
+	if($matches3[2][$index] == $oldaddr){
+		$oldaddr = $matches3[2][$index];
+		continue;
+	}
+	$oldaddr = $matches3[2][$index];
+
 	$message=$matches4[1][$index].", ".$matches2[2][$index].", ".$matches1[2][$index].", ".$matches1[1][$index].", ".$matches3[4][$index];
 	$receiver=$matches3[1][$index]."<br>".$matches3[2][$index]."<br>".$matches3[3][$index];
 
 	$mpdf->AddPage();
 	//Produktionsnorm Klebeetiketten Juni 2016 https://www.post.at/g/c/behoerdenbrief-rsa-rsb-geschaeftlich
 	//Empfängerfeld (56,5 x 16 mm)
-	writeFieldDiv(35,10,56.5,$receiver);
+	writeFieldDiv(35,30,56.5,$receiver);
 
 	//Absenderfeld (82 x 13 mm)
-	writeFieldDiv(57,30,82,$conf['sender'].", ".$conf['id']);
+//	writeFieldDiv(57,30,82,$conf['sender'].", ".$conf['id']);
 
 	//Angabe des ursprünglichen Empfängers auf der Rückantwortkarte (60 x 10 mm)
 	//left: 75-135mm top: 80-90mm
-	writeFieldDiv(75,80,60,$message);
+	writeFieldDiv(4,79,60,$message);
+
+	writeFieldDiv(158,67,60,$message);
 
 	//Rücksendungsanschrift auf der Rückantwortkarte (60 x 20 mm)
-	writeFieldDiv(75,100,60,$conf['sender']."<br>".$conf['id']);
+//	writeFieldDiv(75,100,60,$conf['sender']."<br>".$conf['id']);
 	
 	//Empfängerfeld (56,5 x 60 mm)
 	//left: 150-195mm top: 65-125mm
-	writeFieldDiv(148,66,56.5,$receiver);
+	writeFieldDiv(158,100,56.5,$receiver);
 }
 
 $mpdf->Output('RSb_'.$_FILES['uploadedfile']['name'], \Mpdf\Output\Destination::DOWNLOAD);
